@@ -1,0 +1,82 @@
+  <script>
+    class CheckTIN {
+        constructor(TIN) {
+        this.TIN = TIN;
+        this.str_length = this.TIN.length;    
+        }
+		
+        validTin() {
+			var sum = 0;
+                sum = this.TIN[0] * (-1)
+				      + this.TIN[1] * 5 
+					  + this.TIN[2] * 7
+					  + this.TIN[3] * 9
+					  + this.TIN[4] * 4
+					  + this.TIN[5] * 6
+					  + this.TIN[6] * 10
+					  + this.TIN[7] * 5
+					  + this.TIN[8] * 7;
+					  
+            if (((sum % 11) % 10) == this.TIN % 10 & this.TIN.length == 10) {
+
+			return true;
+			}else{
+			return false;
+        }
+		}
+		
+		
+        sex() {
+            if(this.TIN.charAt(8) % 2 == 0) {
+                return 'female';
+            }
+            return 'male';
+        }
+		
+		
+        bDate() {
+            var date = new Date(1900, 1, 1);
+            var today = new Date();
+            date.setDate(date.getDate() + parseFloat(this.TIN.slice(0,5)));
+            var usdate = new Date(date);
+            return `${usdate.getUTCDate()}.${usdate.getUTCMonth()}.${usdate.getUTCFullYear()}`;  
+        }
+		
+		age() {
+		
+		var date = new Date(1900, 1, 1);
+        var today = new Date();
+        date.setDate(date.getDate() + parseFloat(this.TIN.slice(0,5)));
+        var usdate = new Date(date);
+		
+		var fullYears = today.getFullYear() - usdate.getFullYear();
+		
+		
+		return fullYears;
+		
+    }
+}
+    class Obj extends CheckTIN {
+        constructor(TIN) {
+            super(TIN);
+            this.TIN = TIN;
+        }
+        obj() {
+            if(super.validTin() == true) {
+                
+                return `code: ${this.TIN}, 
+				isCorrect: true, 
+				sex: "${super.sex()}", 
+				dateOfBirth: "${super.bDate()}", 
+				fullYears: ${super.age()}`;
+            } else {
+                return `code: ${this.TIN}, 
+				isCorrect: false `;
+            }
+        }
+    }
+    var TIN = prompt('Please enter your INN');
+    var code = new Obj(TIN.replace(/\s/g, ''));
+    console.log(code.obj());
+</script>
+
